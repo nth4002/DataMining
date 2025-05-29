@@ -6,6 +6,7 @@ import {
   createCourseAPI,
   updateCourseAPI,
   deleteCourseAPI,
+  fetchStudentsInCourseApi,
 } from "../../services/coursesAPI";
 
 export const fetchCourses = createAsyncThunk(
@@ -65,11 +66,21 @@ export const removeCourse = createAsyncThunk(
   }
 );
 
+export const fetchCourseStudents = createAsyncThunk(
+  "courses/fetchCourseStudents",
+  async (courseId, { rejectWithValue }) => {
+    try {
+      return await fetchStudentsInCourseApi(courseId);
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || error.message);
+    }
+  }
+);
 const initialState = {
-  list: [],
+  list: [], // list of courses
   selectedCourseId: null, // Keep this for the dashboard filter selection
   currentCourse: {
-    data: null,
+    data: null, // currentCourseId
     status: "idle",
     error: null,
   },
@@ -77,6 +88,11 @@ const initialState = {
   error: null,
   operationStatus: "idle", // No operation in progress (initial state).
   operationError: null,
+  courseStudents: {
+    list: [],
+    status: "idle",
+    error: null,
+  },
 };
 
 const coursesSlice = createSlice({
@@ -183,6 +199,25 @@ const coursesSlice = createSlice({
       .addCase(removeCourse.rejected, (state, action) => {
         state.operationStatus = "failed";
         state.operationError = action.payload;
+      })
+
+      // fetch Students in the course
+      .addCase(fetchCourseStudents.pending, (state) => {
+        state.courseStudents = { list: [], status: "loading", error: null };
+      })
+      .addCase(fetchCourseStudents.fulfilled, (state, action) => {
+        state.courseStudents = {
+          list: action.payload,
+          status: "succeeded",
+          error: null,
+        };
+      })
+      .addCase(fetchCourseStudents.rejected, (state, action) => {
+        state.courseStudents = {
+          list: [],
+          status: "failed",
+          error: action.payload,
+        };
       });
   },
 });

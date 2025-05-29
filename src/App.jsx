@@ -6,34 +6,47 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import DashboardPage from "./pages/DashboardPage.jsx"; // Make sure .jsx extension is used if needed
-// import StudentDetailPage from './pages/StudentDetailPage.jsx'; // Future: Uncomment when ready
-// import Navbar from './components/layout/Navbar.jsx'; // Optional: Uncomment if you have a Navbar
+import DashboardPage from "./pages/DashboardPage";
+import Navbar from "./components/layout/Navbar";
+import HomePage from "./pages/HomePage";
+import StudentListPage from "./pages/StudentListPage";
+import CourseEngagementPage from "./pages/CourseEngagementPage";
 
-// Optional: A simple global styles import if you have one (or use index.css)
-// import './App.css';
+import VideoStatsPage from "./pages/VideoStatsPage";
+import StudentDetailPage from "./pages/StudentDetailPage";
+import DataMiningPage from "./pages/DataMiningPage.jsx";
+// import "./App.css";
 
 function App() {
   return (
     <Router>
-      {/* <Navbar /> */} {/* Optional: Your navigation bar */}
-      <div
-        className="container"
-        style={{ padding: "20px", margin: "0 auto", maxWidth: "1200px" }}
-      >
-        <Routes>
-          {/* Define your route for the dashboard */}
-          <Route path="/dashboard" element={<DashboardPage />} />
-
-          {/* Future route for student detail page */}
-          {/* <Route path="/student/:studentId" element={<StudentDetailPage />} /> */}
-
-          {/* Default route: Redirect any other unmatched path to /dashboard */}
-          <Route path="/" element={<Navigate replace to="/dashboard" />} />
-
-          {/* You can add a 404 Not Found page later */}
-          {/* <Route path="*" element={<div><h2>404 Not Found</h2></div>} /> */}
-        </Routes>
+      <div className="flex flex-col min-h-screen bg-gray-100">
+        <Navbar /> {/* navigation bar  */}
+        <main className="flex-grow w-full bg-gray-200 p-4 md:p-6 lg:p-8">
+          {" "}
+          {/* Added w-full and a temporary background color */}
+          <Routes>
+            {/* Define your route for the dashboard */}
+            <Route path="/home" element={<HomePage />} />
+            <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/data-mining-process" element={<DataMiningPage />} />
+            <Route path="/" element={<Navigate replace to="/home" />} />
+            <Route
+              path="/courses/:courseId/students"
+              element={<StudentListPage />}
+            />
+            <Route
+              path="/courses/:courseId/engagement"
+              element={<CourseEngagementPage />}
+            />
+            <Route
+              path="/courses/:courseId/video-stats"
+              element={<VideoStatsPage />}
+            />{" "}
+            {/* Renamed route */}
+            <Route path="/student/:userId" element={<StudentDetailPage />} />
+          </Routes>
+        </main>
       </div>
     </Router>
   );

@@ -1,3 +1,4 @@
+// src/components/dashboard/PredictionDistributionChart.jsx
 import React from "react";
 import {
   PieChart,
@@ -9,38 +10,56 @@ import {
 } from "recharts";
 
 const PredictionDistributionChart = ({ data }) => {
-  // Data from backend: [{ classification: 'Pass', count: 80 }, { classification: 'Fail', count: 20 }]
-  // Transform for Recharts: [{ name: 'Pass', value: 80 }, { name: 'Fail', value: 20 }]
+  if (!data || data.length === 0) {
+    return (
+      <p className="text-gray-500 italic text-center py-4">
+        No prediction data available.
+      </p>
+    );
+  }
+
   const chartData = data.map((item) => ({
     name: item.classification,
-    value: Number(item.count), // Ensure count is a number
+    value: Number(item.count),
   }));
 
-  const COLORS = ["#00C49F", "#FF8042"]; // Pass, Fail
+  const COLORS = {
+    Pass: "#00C49F", // Greenish
+    Fail: "#FF8042", // Orangish
+    // Add more colors if you have more classifications
+  };
 
   return (
-    <ResponsiveContainer width="100%" height={300}>
-      <PieChart>
-        <Pie
-          data={chartData}
-          cx="50%"
-          cy="50%"
-          labelLine={false}
-          outerRadius={80}
-          fill="#8884d8"
-          dataKey="value"
-          label={({ name, percent }) =>
-            `${name} ${(percent * 100).toFixed(0)}%`
-          }
-        >
-          {chartData.map((entry, index) => (
-            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-          ))}
-        </Pie>
-        <Tooltip />
-        <Legend />
-      </PieChart>
-    </ResponsiveContainer>
+    // ResponsiveContainer handles sizing, Tailwind can be used for margins or wrapper if needed
+    <div className="w-full h-[300px] sm:h-[350px]">
+      {" "}
+      {/* Explicit height for the container */}
+      <ResponsiveContainer width="100%" height="100%">
+        <PieChart>
+          <Pie
+            data={chartData}
+            cx="50%"
+            cy="50%"
+            labelLine={false}
+            outerRadius="80%" // Make radius responsive to container
+            fill="#8884d8" // Default fill, overridden by Cell
+            dataKey="value"
+            label={({ name, percent, value }) =>
+              `${name}: ${value} (${(percent * 100).toFixed(0)}%)`
+            }
+          >
+            {chartData.map((entry, index) => (
+              <Cell
+                key={`cell-${index}`}
+                fill={COLORS[entry.name] || "#cccccc"}
+              />
+            ))}
+          </Pie>
+          <Tooltip formatter={(value, name) => [`${value} students`, name]} />
+          <Legend />
+        </PieChart>
+      </ResponsiveContainer>
+    </div>
   );
 };
 export default PredictionDistributionChart;

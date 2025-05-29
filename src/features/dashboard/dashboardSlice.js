@@ -14,22 +14,7 @@ import {
   fetchAtRiskSnapshotAPI,
   fetchEngagementTrendsAPI,
 } from "../../services/dashboardAPI.js";
-
-// default state for redux slice before any data is fetched or any actions are taken
-/**
- * Each data section (kpis, predictionDistribution, etc.) tracks:
-data: the actual fetched data
-status: "idle" | "loading" | "succeeded" | "failed" — for loading UI
-error: to store error messages if fetching fails
-
- */
-const initialState = {
-  kpis: { data: null, status: "idle", error: null },
-  predictionDistribution: { data: null, status: "idle", error: null },
-  atRiskSnapshot: { data: null, status: "idle", error: null },
-  engagementTrends: { data: null, status: "idle", error: null },
-  selectedSchool: null,
-};
+import { fetchCourseVideoStatsAPI } from "../../services/coursesAPI.js";
 
 // async thunks
 // pass a custom error message to rejectWithValue
@@ -77,6 +62,26 @@ export const fetchEngagementTrends = createAsyncThunk(
     }
   }
 );
+
+export const fetchCourseVideoStats = createAsyncThunk(
+  "dashboard/fetchCourseVideoStats",
+  async ({ courseId, school }, { rejectWithValue }) => {
+    try {
+      return await fetchCourseVideoStatsAPI(courseId, school);
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || error.message);
+    }
+  }
+);
+
+const initialState = {
+  kpis: { data: null, status: "idle", error: null },
+  predictionDistribution: { data: null, status: "idle", error: null },
+  atRiskSnapshot: { data: null, status: "idle", error: null },
+  engagementTrends: { data: null, status: "idle", error: null },
+  selectedSchool: null,
+  courseVideoStats: { data: null, status: "idle", error: null },
+};
 
 const dashboardSlice = createSlice({
   name: "dashboard",
@@ -157,6 +162,24 @@ const dashboardSlice = createSlice({
       .addCase(fetchEngagementTrends.rejected, (state, action) => {
         state.engagementTrends = {
           ...state.engagementTrends,
+          status: "failed",
+          error: action.payload,
+        };
+      })
+      // fetch course video stats
+      .addCase(fetchCourseVideoStats.pending, (state) => {
+        state.courseVideoStats = { data: null, status: "loading", error: null };
+      })
+      .addCase(fetchCourseVideoStats.fulfilled, (state, action) => {
+        state.courseVideoStats = {
+          data: action.payload,
+          status: "succeeded",
+          error: null,
+        };
+      })
+      .addCase(fetchCourseVideoStats.rejected, (state, action) => {
+        state.courseVideoStats = {
+          data: null,
           status: "failed",
           error: action.payload,
         };

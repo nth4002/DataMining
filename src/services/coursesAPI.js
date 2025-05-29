@@ -25,3 +25,17 @@ export const deleteCourseAPI = async (courseId) => {
   const response = await apiClient.delete(`/courses/${courseId}`);
   return response.data;
 };
+
+export const fetchStudentsInCourseApi = async (courseId) => {
+  const response = await apiClient.get(`/courses/${courseId}/students`);
+  return response.data;
+};
+
+export const fetchCourseVideoStatsAPI = async (courseId, school) => {
+  const params = school ? { school } : {};
+  const response = await apiClient.get(
+    `/courses/${courseId}/video-stats-summary`,
+    { params }
+  );
+  return response.data;
+};

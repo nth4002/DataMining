@@ -12,31 +12,33 @@ const HomePage = () => {
           {" "}
           {/* Tailwind Typography plugin helps here */}
           <p>
-            Welcome to our intelligent analytics platform! This system is
-            designed to empower educators and academic institutions by
-            leveraging student school information and engagement behaviors –
-            such as questions completed and video interaction time.
+            Chào mừng đến với nền tảng phận tícch thông minh của chúng tôi! Hệ
+            thống này được thiết kế nhằm hỗ trợ các nhà giáo dục và các viện
+            nghiên cứu học thuật thông qua việc sử dụng thông tin học sinh và
+            trường học và các hành vi tương tác trong học tập như số câu hỏi đã
+            làm và thời lượng xem video.
           </p>
           <p>
-            Our core function is to provide accurate{" "}
+            Chức năng chính của hệ thống là cung cấp chính xác{" "}
             <strong className="text-indigo-600">
-              predictions on student course outcomes
-            </strong>{" "}
-            (pass or fail). By identifying at-risk students proactively, we aim
-            to facilitate timely interventions, personalize learning support,
-            and ultimately enhance student success rates and educational
-            quality.
+              dự đoán về đầu ra kết quả học tập của học sinh
+            </strong>
+            (pass or fail). Bằng cách chủ động xác định những học sinh đang
+            "nguy cấp" (at-risk), chúng tôi nhắm tới việc can thiệp kịp thời, cá
+            nhân hóa việc hỗ trợ học tập, và nâng cao tỉ lệ hoàn thành khóa học
+            cũng như tăng chất lượng giáo dục.
           </p>
           <p>
-            Navigate to the{" "}
+            Hãy chuyển hướng tới{" "}
             <NavLink
               to="/dashboard"
               className="text-indigo-600 hover:text-indigo-800 font-medium"
             >
               Dashboard
             </NavLink>{" "}
-            to visualize these predictions, explore key contributing factors,
-            and monitor engagement trends across courses.
+            để xem và hình dung những dự đoán này, khám phá các "key
+            contributing factors" và giám sát các xu hướng học của các học sinh
+            qua các khóa học.
           </p>
         </div>
       </section>
@@ -48,93 +50,159 @@ const HomePage = () => {
             Meet the Team
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Team Member Card 1 */}
-            <div className="bg-white rounded-lg shadow-xl p-6 text-center hover:shadow-2xl transition-shadow duration-300">
+            {/* Team Member Card - Nguyễn Thanh Hùng */}
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 text-center hover:shadow-2xl transition-shadow duration-300 flex flex-col items-center h-full">
+              {/* Image */}
               <img
-                className="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-indigo-500 object-cover"
-                src="/images/bruno.webp" // Use imported image or direct path
-                alt="bruno"
+                className="w-32 h-32 rounded-full mb-4 border-4 border-indigo-500 dark:border-indigo-400 object-cover shadow-md"
+                src="/images/default_user_profile.webp"
+                alt="Nguyễn Thanh Hùng"
               />
-              <div className="w-32 h-32 rounded-full mx-auto mb-4 bg-indigo-200 flex items-center justify-center text-4xl font-bold text-indigo-700">
-                Magnifico {/* Initials or placeholder */}
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-1">
-                Mân trưởng
-              </h3>
-              <p className="text-indigo-600 font-medium mb-2">Top 16 EPL</p>
-              <p className="text-gray-600 text-sm">Đội trưởng của nhà hát</p>
-            </div>
 
-            {/* Team Member Card 2 (Placeholder) */}
-            <div className="bg-white rounded-lg shadow-xl p-6 text-center hover:shadow-2xl transition-shadow duration-300">
-              <img
-                className="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-indigo-500 object-cover"
-                src="/images/kevin.webp" // Use imported image or direct path
-                alt="bruno"
-              />
-              <div className="w-32 h-32 rounded-full mx-auto mb-4 bg-gray-200 flex items-center justify-center text-4xl font-bold text-gray-700">
-                Magnifico {/* Initials */}
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-1">
-                Tiểu Bruno
+              {/* Name */}
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-1 mt-2">
+                Nguyễn Thanh Hùng
               </h3>
-              <p className="text-indigo-600 font-medium mb-2">Man Fake</p>
-              <p className="text-gray-600 text-sm">
-                A Trung Kevin, cứ chung kết là a chấn thương
+
+              {/* Student ID (Optional) */}
+              {/* <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">
+    ID: 22520518
+  </p> */}
+
+              {/* Role */}
+              <p className="text-indigo-600 dark:text-indigo-400 font-medium mb-2 text-sm">
+                Tier 1 gánh team {/* Example Role */}
+              </p>
+
+              {/* Short Bio/Contribution */}
+              <p className="text-gray-600 dark:text-gray-400 text-sm px-2">
+                "Cân team" - Đóng góp quan trọng vào việc phát triển các thành
+                phần cốt lõi và giải quyết các thách thức kỹ thuật.{" "}
+                {/* Example Bio */}
               </p>
             </div>
 
-            {/* Team Member Card 3 (Placeholder) */}
-            <div className="bg-white rounded-lg shadow-xl p-6 text-center hover:shadow-2xl transition-shadow duration-300">
+            {/* Team Member Card - Đỗ Tuấn Trực */}
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 text-center hover:shadow-2xl transition-shadow duration-300 flex flex-col items-center h-full">
+              {/* Image */}
               <img
-                className="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-indigo-500 object-cover"
-                src="/images/jackson.jpeg" // Use imported image or direct path
-                alt="bruno"
+                className="w-32 h-32 rounded-full mb-4 border-4 border-indigo-500 dark:border-indigo-400 object-cover shadow-md"
+                src="/images/default_user_profile.webp"
+                alt="Đỗ Tuấn Trực"
               />
-              <div className="w-32 h-32 rounded-full mx-auto mb-4 bg-gray-200 flex items-center justify-center text-4xl font-bold text-gray-700">
-                Striker {/* Initials */}
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-1">
-                A Những
+
+              {/* Name */}
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-1 mt-2">
+                Đỗ Tuấn Trực
               </h3>
-              <p className="text-indigo-600 font-medium mb-2">Chelsea FC</p>
-              <p className="text-gray-600 text-sm">
-                Những kẻ chê bai tôi không biết gì về bóng đá
+
+              {/* Student ID (Optional) */}
+              {/* <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">
+    ID: 22521548
+  </p> */}
+
+              {/* Role */}
+              <p className="text-indigo-600 dark:text-indigo-400 font-medium mb-2 text-sm">
+                Tier 2 gánh team {/* Example Role */}
+              </p>
+
+              {/* Short Bio/Contribution */}
+              <p className="text-gray-600 dark:text-gray-400 text-sm px-2">
+                "Cân team" - Đóng góp chính vào sự thành công của dự án thông
+                qua các giải pháp sáng tạo và nỗ lực không ngừng.{" "}
+                {/* Example Bio */}
+              </p>
+            </div>
+            {/* Team Member Card - Hoàng Thanh Trúc */}
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 text-center hover:shadow-2xl transition-shadow duration-300 flex flex-col items-center h-full">
+              {/* Image */}
+              <img
+                className="w-32 h-32 rounded-full mb-4 border-4 border-indigo-500 dark:border-indigo-400 object-cover shadow-md"
+                src="/images/default_user_profile.webp"
+                alt="Hoàng Thanh Trúc"
+              />
+
+              {/* Name */}
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-1 mt-2">
+                Hoàng Thanh Trúc
+              </h3>
+
+              {/* Student ID (Optional, if you want to display it for team members too) */}
+              {/* <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">
+    ID: [Trúc's ID if applicable]
+  </p> */}
+
+              {/* Role */}
+              <p className="text-indigo-600 dark:text-indigo-400 font-medium mb-2 text-sm">
+                Team Contributor / Analyst {/* Example Role */}
+              </p>
+
+              {/* Short Bio/Contribution */}
+              <p className="text-gray-600 dark:text-gray-400 text-sm px-2">
+                "Tin tưởng vào những người cân team" - Đặt niềm tin vào 2 anh
+                Long. {/* Example Bio */}
               </p>
             </div>
 
-            {/* Team Member Card 3 (Placeholder) */}
-            <div className="bg-white rounded-lg shadow-xl p-6 text-center hover:shadow-2xl transition-shadow duration-300">
+            {/* Team Member Card - Dương Tuấn Thịnh */}
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 text-center hover:shadow-2xl transition-shadow duration-300 flex flex-col items-center h-full">
+              {/* Image */}
               <img
-                className="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-indigo-500 object-cover"
-                src="/images/haaland.webp" // Use imported image or direct path
-                alt="bruno"
+                className="w-32 h-32 rounded-full mb-4 border-4 border-indigo-500 dark:border-indigo-400 object-cover shadow-md"
+                src="/images/default_user_profile.webp"
+                alt="Dương Tuấn Thịnh"
               />
-              <div className="w-32 h-32 rounded-full mx-auto mb-4 bg-gray-200 flex items-center justify-center text-4xl font-bold text-gray-700">
-                Striker {/* Initials */}
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-1">
-                Cô gái Hà Lan
-              </h3>
-              <p className="text-indigo-600 font-medium mb-2">Man Fake</p>
-              <p className="text-gray-600 text-sm">Stay humbled</p>
-            </div>
 
-            {/* Team Member Card 3 (Placeholder) */}
-            <div className="bg-white rounded-lg shadow-xl p-6 text-center hover:shadow-2xl transition-shadow duration-300">
-              <img
-                className="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-indigo-500 object-cover"
-                src="/images/garnacho.webp" // Use imported image or direct path
-                alt="bruno"
-              />
-              <div className="w-32 h-32 rounded-full mx-auto mb-4 bg-gray-200 flex items-center justify-center text-4xl font-bold text-gray-700">
-                Winger {/* Initials */}
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-1">
-                A Giỏi
+              {/* Name */}
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-1 mt-2">
+                Đinh Quốc Thịnh
               </h3>
-              <p className="text-indigo-600 font-medium mb-2">Man United</p>
-              <p className="text-gray-600 text-sm">Giỏi thì vào mà đá</p>
+
+              {/* Student ID (Optional) */}
+              {/* <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">
+    ID: [Thịnh's ID if applicable]
+  </p> */}
+
+              {/* Role */}
+              <p className="text-indigo-600 dark:text-indigo-400 font-medium mb-2 text-sm">
+                Project Lead / Strategist {/* Example Role */}
+              </p>
+
+              {/* Short Bio/Contribution */}
+              <p className="text-gray-600 dark:text-gray-400 text-sm px-2">
+                "Chỉ đạo" - Định hướng chiến lược tổng thể của dự án và điều
+                phối các hoạt động của nhóm. {/* Example Bio */}
+              </p>
+            </div>
+            {/* Team Member Card 3 (Placeholder) */}
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 text-center hover:shadow-2xl transition-shadow duration-300 flex flex-col items-center h-full">
+              {/* Image */}
+              <img
+                className="w-32 h-32 rounded-full mb-4 border-4 border-indigo-500 dark:border-indigo-400 object-cover shadow-md"
+                src="/images/default_user_profile.webp" // Replace with actual path or dynamic src
+                alt="Nguyễn Đức Tài" // Use the person's name for alt text
+              />
+
+              {/* Name */}
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-1 mt-2">
+                Nguyễn Đức Tài
+              </h3>
+
+              {/* Student ID (Optional, can be styled differently if less important)
+              <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">
+                ID: 22520518
+              </p> */}
+
+              {/* Role */}
+              <p className="text-indigo-600 dark:text-indigo-400 font-medium mb-2 text-sm">
+                Lead Documenter {/* Example Role */}
+              </p>
+
+              {/* Short Bio/Contribution */}
+              <p className="text-gray-600 dark:text-gray-400 text-sm px-2">
+                Phụ trách tổng hợp và ghi chép tài liệu, đảm bảo thông tin dự án
+                được đầy đủ và rõ ràng. {/* Example Bio */}
+              </p>
             </div>
           </div>
         </div>

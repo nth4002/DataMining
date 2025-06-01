@@ -1,0 +1,184 @@
+[
+  {
+    "week": 1,
+    "description": "Model trained on cumulative data up to the end of Week 1.",
+    "model_type": "XGBoost Classifier with SMOTE & StandardScaler",
+    "best_params": {
+      "subsample": 0.5,
+      "reg_lambda": 2,
+      "reg_alpha": 1,
+      "n_estimators": 50,
+      "min_child_weight": 20,
+      "max_depth": 2,
+      "max_delta_step": 5,
+      "learning_rate": 0.01,
+      "gamma": 1,
+      "colsample_bytree": 0.5
+    },
+    "cv_results": {
+      "mean_accuracy": 0.8215,
+      "mean_f1_score_weighted": 0.8253,
+      "folds_detail": [
+        { "fold": 1, "accuracy": 0.7954, "f1_weighted": 0.804 },
+        { "fold": 2, "accuracy": 0.8407, "f1_weighted": 0.843 },
+        { "fold": 3, "accuracy": 0.8164, "f1_weighted": 0.8219 },
+        { "fold": 4, "accuracy": 0.829, "f1_weighted": 0.8303 },
+        { "fold": 5, "accuracy": 0.8259, "f1_weighted": 0.8272 }
+      ]
+    },
+    "final_test_results": {
+      "accuracy": 0.854,
+      "f1_score_weighted": 0.8491,
+      "precision_fail": 0.7581,
+      "recall_fail": 0.6246,
+      "f1_score_fail": 0.6848,
+      "confusion_matrix": { "tn": 188, "fp": 113, "fn": 60, "tp": 824 }
+    },
+    "feature_importances": []
+  },
+  {
+    "week": 2,
+    "description": "Model trained on cumulative data up to the end of Week 2.",
+    "model_type": "XGBoost Classifier with SMOTE & StandardScaler",
+    "best_params": {
+      "subsample": 0.5,
+      "reg_lambda": 2,
+      "reg_alpha": 1,
+      "n_estimators": 50,
+      "min_child_weight": 10,
+      "max_depth": 2,
+      "max_delta_step": 10,
+      "learning_rate": 0.01,
+      "gamma": 1,
+      "colsample_bytree": 0.5
+    },
+    "cv_results": {
+      "mean_accuracy": 0.8177,
+      "mean_f1_score_weighted": 0.822,
+      "folds_detail": [
+        { "fold": 1, "accuracy": 0.8254, "f1_weighted": 0.8319 },
+        { "fold": 2, "accuracy": 0.8122, "f1_weighted": 0.8161 },
+        { "fold": 3, "accuracy": 0.7989, "f1_weighted": 0.8041 },
+        { "fold": 4, "accuracy": 0.8211, "f1_weighted": 0.8252 },
+        { "fold": 5, "accuracy": 0.8306, "f1_weighted": 0.8326 }
+      ]
+    },
+    "final_test_results": {
+      "accuracy": 0.8895,
+      "f1_score_weighted": 0.8852,
+      "precision_fail": 0.8512,
+      "recall_fail": 0.6844,
+      "f1_score_fail": 0.7587,
+      "confusion_matrix": { "tn": 206, "fp": 95, "fn": 36, "tp": 848 }
+    },
+    "feature_importances": []
+  },
+  {
+    "week": 3,
+    "description": "Model trained on cumulative data up to the end of Week 3.",
+    "model_type": "XGBoost Classifier with SMOTE & StandardScaler",
+    "best_params": {
+      "subsample": 0.5,
+      "reg_lambda": 3,
+      "reg_alpha": 1,
+      "n_estimators": 30,
+      "min_child_weight": 20,
+      "max_depth": 2,
+      "max_delta_step": 10,
+      "learning_rate": 0.01,
+      "gamma": 2,
+      "colsample_bytree": 0.5
+    },
+    "cv_results": {
+      "mean_accuracy": 0.8121,
+      "mean_f1_score_weighted": 0.8159,
+      "folds_detail": [
+        { "fold": 1, "accuracy": 0.7874, "f1_weighted": 0.7983 },
+        { "fold": 2, "accuracy": 0.8281, "f1_weighted": 0.8297 },
+        { "fold": 3, "accuracy": 0.8005, "f1_weighted": 0.806 },
+        { "fold": 4, "accuracy": 0.8132, "f1_weighted": 0.8125 },
+        { "fold": 5, "accuracy": 0.8311, "f1_weighted": 0.8332 }
+      ]
+    },
+    "final_test_results": {
+      "accuracy": 0.8844,
+      "f1_score_weighted": 0.8793,
+      "precision_fail": 0.8504,
+      "recall_fail": 0.6611,
+      "f1_score_fail": 0.744,
+      "confusion_matrix": { "tn": 199, "fp": 102, "fn": 35, "tp": 849 }
+    },
+    "feature_importances": []
+  },
+  {
+    "week": 4,
+    "description": "Model trained on cumulative data up to the end of Week 4.",
+    "model_type": "XGBoost Classifier with SMOTE & StandardScaler",
+    "best_params": {
+      "subsample": 0.5,
+      "reg_lambda": 2,
+      "reg_alpha": 1,
+      "n_estimators": 50,
+      "min_child_weight": 20,
+      "max_depth": 2,
+      "max_delta_step": 10,
+      "learning_rate": 0.01,
+      "gamma": 2,
+      "colsample_bytree": 0.5
+    },
+    "cv_results": {
+      "mean_accuracy": 0.8182,
+      "mean_f1_score_weighted": 0.8227,
+      "folds_detail": [
+        { "fold": 1, "accuracy": 0.7969, "f1_weighted": 0.8054 },
+        { "fold": 2, "accuracy": 0.8428, "f1_weighted": 0.8451 },
+        { "fold": 3, "accuracy": 0.8311, "f1_weighted": 0.835 },
+        { "fold": 4, "accuracy": 0.8348, "f1_weighted": 0.8358 },
+        { "fold": 5, "accuracy": 0.7852, "f1_weighted": 0.7919 }
+      ]
+    },
+    "final_test_results": {
+      "accuracy": 0.8743,
+      "f1_score_weighted": 0.8696,
+      "precision_fail": 0.8115,
+      "recall_fail": 0.6578,
+      "f1_score_fail": 0.7262,
+      "confusion_matrix": { "tn": 198, "fp": 103, "fn": 46, "tp": 838 }
+    },
+    "feature_importances": []
+  },
+  {
+    "week": 5,
+    "week_label": "Full 4 Weeks (Final Model)",
+    "description": "Model trained on cumulative data from all 4 weeks (or end of course data).",
+    "model_type": "XGBoost Classifier with SMOTE & StandardScaler",
+    "best_params": {
+      "subsample": 0.5,
+      "reg_lambda": 2,
+      "reg_alpha": 1,
+      "n_estimators": 50,
+      "min_child_weight": 20,
+      "max_depth": 2,
+      "max_delta_step": 10,
+      "learning_rate": 0.01,
+      "gamma": 2,
+      "colsample_bytree": 0.5
+    },
+    "cv_results": {
+      "mean_accuracy": 0,
+      "mean_f1_score_weighted": 0,
+      "folds_detail": []
+    },
+    "final_test_results": {
+      "accuracy": 0.9814,
+      "f1_score_weighted": 0.9814,
+      "precision_weighted": 0.9814,
+      "recall_weighted": 0.9814,
+      "precision_fail": 0.9666,
+      "recall_fail": 0.9601,
+      "f1_score_fail": 0.9633,
+      "confusion_matrix": { "tn": 289, "fp": 12, "fn": 10, "tp": 874 }
+    },
+    "feature_importances": []
+  }
+]

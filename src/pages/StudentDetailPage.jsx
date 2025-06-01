@@ -1,20 +1,29 @@
 // src/pages/StudentDetailPage.jsx
 import React, { useEffect } from "react";
-import { useParams, Link, useSearchParams } from "react-router-dom";
+import {
+  useParams,
+  Link,
+  useSearchParams,
+  useNavigate,
+} from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchUserProfile,
   fetchUserEnrollments,
   fetchStudentCoursePerformance,
   selectCourseForDetailView,
+  clearStudentDetail, // Make sure this is imported from your slice
 } from "../features/studentDetail/studentDetailSlice";
+import { fetchCourseDetail as fetchCourseMetadata } from "../features/courses/coursesSlice"; // For course metadata
 import { ArrowLeftIcon } from "@heroicons/react/24/solid";
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
 
 const StudentDetailPage = () => {
   const { userId } = useParams();
-
-  const [searchParams] = useSearchParams(); // <<<< Get searchParams
-  const cameFromCourseId = searchParams.get("course"); // <<<< Read the 'course' query parameter
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const cameFromCourseId = searchParams.get("course");
   const dispatch = useDispatch();
 
   const {
@@ -24,15 +33,18 @@ const StudentDetailPage = () => {
     selectedCourseForDetailView,
   } = useSelector((state) => state.studentDetail);
 
+  const { data: courseMetadata, status: courseMetaStatus } = useSelector(
+    (state) => state.courses.currentCourse
+  );
+
   useEffect(() => {
     if (userId) {
       dispatch(fetchUserProfile(userId));
       dispatch(fetchUserEnrollments(userId));
     }
-    // // Optional: Cleanup when component unmounts or userId changes
-    // return () => {
-    //   dispatch(clearStudentDetail());
-    // };
+    return () => {
+      dispatch(clearStudentDetail());
+    };
   }, [userId, dispatch]);
 
   useEffect(() => {
@@ -43,12 +55,36 @@ const StudentDetailPage = () => {
           courseId: selectedCourseForDetailView,
         })
       );
+      if (
+        !courseMetadata ||
+        courseMetadata.course_id !== selectedCourseForDetailView ||
+        courseMetaStatus !== "succeeded"
+      ) {
+        dispatch(fetchCourseMetadata(selectedCourseForDetailView));
+      }
     }
-  }, [userId, selectedCourseForDetailView, dispatch]);
+  }, [
+    userId,
+    selectedCourseForDetailView,
+    dispatch,
+    courseMetadata, // Keep as dependency to re-evaluate condition
+    courseMetaStatus, // Keep as dependency
+  ]);
 
   const handleCourseSelectionChange = (e) => {
     dispatch(selectCourseForDetailView(e.target.value || null));
   };
+
+  const handleMoreInsightsClick = () => {
+    if (userId && selectedCourseForDetailView) {
+      navigate(
+        `/student/${userId}/course-insights/${selectedCourseForDetailView}`
+      );
+    }
+  };
+
+  // Calculate Completion Percentage (moved inside the return or just before it, only when data is available)
+  // This calculation will now happen only if selectedCoursePerformance.data and courseMetadata are available.
 
   if (profile.status === "loading" || enrollments.status === "loading") {
     return (
@@ -57,10 +93,23 @@ const StudentDetailPage = () => {
       </div>
     );
   }
+
+  // Add error handling for profile.error and enrollments.error if desired
+  if (profile.error || enrollments.error) {
+    return (
+      <div className="p-4 text-red-500 text-center">
+        <p>
+          Error loading student data:{" "}
+          {profile.error?.toString() || enrollments.error?.toString()}
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-8">
       {/* Back Link Section */}
-      {cameFromCourseId && ( // Only show if we know which course list to go back to
+      {cameFromCourseId ? (
         <div className="mb-4">
           <Link
             to={`/courses/${cameFromCourseId}/students`}
@@ -70,12 +119,10 @@ const StudentDetailPage = () => {
             Back to Student List for Course {cameFromCourseId}
           </Link>
         </div>
-      )}
-      {/* If no cameFromCourseId, you might offer a generic link or different text */}
-      {!cameFromCourseId && (
+      ) : (
         <div className="mb-4">
           <Link
-            to="/dashboard" // Fallback to main dashboard
+            to="/dashboard"
             className="inline-flex items-center text-sm font-medium text-indigo-600 hover:text-indigo-800 group"
           >
             <ArrowLeftIcon className="h-5 w-5 mr-1 text-indigo-500 group-hover:text-indigo-700 transition-colors" />
@@ -83,6 +130,8 @@ const StudentDetailPage = () => {
           </Link>
         </div>
       )}
+
+      {/* Student Profile Section */}
       <section className="bg-white shadow-lg rounded-lg p-6">
         <h2 className="text-2xl font-bold text-gray-800 mb-4">
           Student Profile:{" "}
@@ -90,39 +139,41 @@ const StudentDetailPage = () => {
             {profile.data?.name || userId}
           </span>
         </h2>
-        {profile.data && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-700">
-            <p>
-              <strong>User ID:</strong> {profile.data.user_id}
-            </p>
-            <p>
-              <strong>Name:</strong> {profile.data.name || "N/A"}
-            </p>
-            <p>
-              <strong>Gender:</strong>{" "}
-              {profile.data.gender === 0
-                ? "Male"
-                : profile.data.gender === 1
-                ? "Female"
-                : "N/A"}
-            </p>{" "}
-            {/* Adjust gender mapping */}
-            <p>
-              <strong>Year of Birth:</strong>{" "}
-              {profile.data.year_of_birth || "N/A"}
-            </p>
-            <p>
-              <strong>School:</strong> {profile.data.school || "N/A"}
-            </p>
-          </div>
-        )}
+        {profile.status === "succeeded" &&
+          profile.data && ( // Check for successful load
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-700">
+              <p>
+                <strong>User ID:</strong> {profile.data.user_id}
+              </p>
+              <p>
+                <strong>Name:</strong> {profile.data.name || "N/A"}
+              </p>
+              <p>
+                <strong>Gender:</strong>{" "}
+                {profile.data.gender === 0
+                  ? "Male"
+                  : profile.data.gender === 1
+                  ? "Female"
+                  : "N/A"}
+              </p>
+              <p>
+                <strong>Year of Birth:</strong>{" "}
+                {profile.data.year_of_birth || "N/A"}
+              </p>
+              <p>
+                <strong>School:</strong> {profile.data.school || "N/A"}
+              </p>
+            </div>
+          )}
+        {profile.status === "loading" && <p>Loading profile...</p>}
       </section>
 
+      {/* Course Enrollments & Performance Section */}
       <section className="bg-white shadow-lg rounded-lg p-6">
         <h3 className="text-xl font-semibold text-gray-700 mb-4">
-          Course Enrollments
+          Course Enrollments & Performance
         </h3>
-        {enrollments.list.length > 0 ? (
+        {enrollments.status === "succeeded" && enrollments.list.length > 0 ? ( // Check for successful load
           <div className="space-y-4">
             <div>
               <label
@@ -152,39 +203,143 @@ const StudentDetailPage = () => {
 
             {selectedCourseForDetailView &&
               selectedCoursePerformance.status === "loading" && (
-                <p>Loading course performance...</p>
+                <p className="text-gray-600 mt-4">
+                  Loading course performance...
+                </p>
               )}
-            {selectedCourseForDetailView && selectedCoursePerformance.data && (
-              <div className="mt-6 p-4 border rounded-md">
-                <h4 className="text-lg font-medium text-gray-800">
-                  Performance in:{" "}
-                  {enrollments.list.find(
-                    (e) => e.course_id === selectedCourseForDetailView
-                  )?.course_name || selectedCourseForDetailView}
-                </h4>
-                {/* Display weekly data from selectedCoursePerformance.data */}
-                {/* Example: */}
-                <p>
-                  Total Watch Time:{" "}
-                  {
-                    selectedCoursePerformance.data
-                      .total_watch_time_minutes_per_course
-                  }{" "}
-                  min
-                </p>
-                <p>
-                  Classification:{" "}
-                  {selectedCoursePerformance.data.classification}
-                </p>
-                {/* You would iterate over week1, week2 data here or build specific components/charts */}
-                <pre className="mt-2 p-2 bg-gray-100 rounded text-xs overflow-x-auto">
-                  {JSON.stringify(selectedCoursePerformance.data, null, 2)}
-                </pre>
-              </div>
+            {selectedCourseForDetailView && selectedCoursePerformance.error && (
+              <p className="text-red-500 mt-4">
+                Error loading performance:{" "}
+                {selectedCoursePerformance.error.toString()}
+              </p>
             )}
+
+            {/* MOVED performance details INSIDE this block */}
+            {selectedCourseForDetailView &&
+              selectedCoursePerformance.status === "succeeded" &&
+              selectedCoursePerformance.data && (
+                <div className="mt-6 p-4 border border-gray-200 rounded-md bg-gray-50">
+                  <div className="flex justify-between items-center mb-3">
+                    <h4 className="text-lg font-medium text-gray-800">
+                      Performance in:{" "}
+                      {enrollments.list.find(
+                        (e) => e.course_id === selectedCourseForDetailView
+                      )?.course_name || selectedCourseForDetailView}
+                    </h4>
+                    <button
+                      onClick={handleMoreInsightsClick}
+                      className="text-sm font-medium text-indigo-600 hover:text-indigo-800 px-3 py-1.5 rounded-md bg-indigo-50 hover:bg-indigo-100 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    >
+                      Engagement Charts →
+                    </button>
+                  </div>
+
+                  {/* Progress Bar - Calculation needs to be inside this block or ensure data exists */}
+                  {(() => {
+                    // IIFE to calculate and render progress bar
+                    let completionPercentage = 0;
+                    let studentTotalQuestionsDone = 0;
+                    if (courseMetadata && courseMetadata.num_exercises > 0) {
+                      studentTotalQuestionsDone =
+                        (selectedCoursePerformance.data.questions_done_week1 ||
+                          0) +
+                        (selectedCoursePerformance.data.questions_done_week2 ||
+                          0) +
+                        (selectedCoursePerformance.data.questions_done_week3 ||
+                          0) +
+                        (selectedCoursePerformance.data.questions_done_week4 ||
+                          0) +
+                        (selectedCoursePerformance.data
+                          .questions_done_after_4weeks || 0);
+
+                      completionPercentage = Math.min(
+                        Math.round(
+                          (studentTotalQuestionsDone /
+                            courseMetadata.num_exercises) *
+                            100
+                        ),
+                        100
+                      );
+                      return (
+                        <div className="my-4">
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Progress (Based on Exercises Done):
+                          </label>
+                          <div className="w-32 h-32 mx-auto sm:mx-0">
+                            <CircularProgressbar
+                              value={completionPercentage}
+                              text={`${completionPercentage}%`}
+                              styles={buildStyles({
+                                textSize: "20px",
+                                textColor: "#4A5568",
+                                pathColor:
+                                  completionPercentage > 75
+                                    ? "#38A169"
+                                    : completionPercentage > 40
+                                    ? "#4299E1"
+                                    : "#E53E3E",
+                                trailColor: "#E2E8F0",
+                              })}
+                            />
+                          </div>
+                          <p className="text-xs text-gray-500 text-center sm:text-left mt-1">
+                            {studentTotalQuestionsDone} /{" "}
+                            {courseMetadata.num_exercises} exercises completed
+                          </p>
+                        </div>
+                      );
+                    }
+                    return (
+                      <p className="text-xs text-gray-500 my-4">
+                        Progress data N/A (total exercises for course unknown or
+                        no performance data).
+                      </p>
+                    );
+                  })()}
+
+                  <p>
+                    Total Watch Time:{" "}
+                    <span
+                      className={`font-semibold ${
+                        selectedCoursePerformance.data
+                          .total_watch_time_minutes_per_course > 60 // Example threshold
+                          ? "text-green-600"
+                          : selectedCoursePerformance.data
+                              .total_watch_time_minutes_per_course > 20
+                          ? "text-yellow-600"
+                          : "text-red-600"
+                      }`}
+                    >
+                      {selectedCoursePerformance.data
+                        .total_watch_time_minutes_per_course ?? "N/A"}{" "}
+                      min
+                    </span>
+                  </p>
+                  <p>
+                    Classification:{" "}
+                    <span
+                      className={`font-semibold ${
+                        selectedCoursePerformance.data.classification === "Pass"
+                          ? "text-green-600"
+                          : "text-red-600"
+                      }`}
+                    >
+                      {selectedCoursePerformance.data.classification}
+                    </span>
+                  </p>
+                  {/* "Dig Deeper" button was changed to be next to the title above */}
+                  <pre className="mt-4 p-2 bg-gray-200 rounded text-xs overflow-x-auto">
+                    {JSON.stringify(selectedCoursePerformance.data, null, 2)}
+                  </pre>
+                </div>
+              )}
           </div>
         ) : (
-          <p>No course enrollments found for this student.</p>
+          <p className="text-gray-500 italic">
+            {enrollments.status === "loading"
+              ? "Loading enrollments..."
+              : "No course enrollments found for this student."}
+          </p>
         )}
       </section>
     </div>

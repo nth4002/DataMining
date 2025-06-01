@@ -1,0 +1,61 @@
+File user-video.json gồm thông tin như sau:
+Link ảnh: uv_info.png
+
+Seq Array, chuỗi trình tự ngừoi dùng xem video,mỗi đối tượng trong mảng là trình tự thời gian của người dùng xem một video nhất định, bao gồm thời gian xem video, thời gian bắt đầu và kết thúc của video, tốc độ xem video, v.v.
+
+Mỗi phần tử của seq có format như ví dụ bên dưới:
+{'video_id': 'V_1395633',
+ 'segment': [{'start_point': 130.0,
+   'end_point': 190.0,
+   'speed': 1.0,
+   'local_start_time': 1588431144},
+  {'start_point': 220.0,
+   'end_point': 250.0,
+   'speed': 1.0,
+   'local_start_time': 1588431234},
+  {'start_point': 478.8,
+   'end_point': 508.8,
+   'speed': 1.0,
+   'local_start_time': 1588437359},
+  {'start_point': 655.1,
+   'end_point': 692.55,
+   'speed': 1.25,
+   'local_start_time': 1588437514}]}
+
+Ta tiến hành  phân tách column seq thành video_id và segment, và từ segment phân tách chúng thành các cột 	start_point,end_point,	speed	local_start_time
+
+Một số key EDA:
+Thòi gian user xem sớm nhất bắt đầu từ Dec 13th, 2001 và lần cuối userxem video trên nền tảng là Feb 12th, 2022
+Link ảnh: first_and_last_watching_time
+
+Cột 'local_start_time':
+Từ 2 biểu đồ bên dưới, ta có nhận xét: phần user xem video trong năm 2020. 
+Link ảnh: video_watch_timestamps_histogram
+Link ảnh: number_of_watch_events_every_year_bar
+
+Cột năm dao động trong khoảng từ 2001  đến 2022. 
+year	unique_user_count
+i32	u32
+2022	1
+2021	1
+2020	81787
+2019	3
+2013	1
+2011	2
+2009	1
+2008	1
+2006	1
+2001	2
+Hầu hết người dùng xem video vào năm 2020, trong khi những năm khác có ít người dùng xem.
+
+Cột speed
+Có các chế độ speed như sau và thống kê của chúng như bảng bên dưới:
+speed	num_users	percentage
+f64	u32	f64
+1.25	320498	12.42
+0.5	754	0.03
+1.5	294334	11.41
+2.0	368258	14.27
+1.0	1596641	61.87
+Biểu đồ tròn thể hiện phân bố  phần trăm user xem video ở các tốc độ khác nhau
+Link ảnh: spped_watching_video.png 

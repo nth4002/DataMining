@@ -8,7 +8,7 @@ Trong thời đại giáo dục trực tuyến bùng nổ, đặc biệt với c
 *   🔮 **Dự đoán hiệu suất học tập** của học viên.
 *   ⚠️ **Cung cấp cảnh báo sớm** cho những học viên có nguy cơ.
 *   ✨ **Tối ưu hóa trải nghiệm học tập** tổng thể.
-*    персонализировать **Cá nhân hóa lộ trình và hỗ trợ học tập**.
+*   👤 **Cá nhân hóa lộ trình và hỗ trợ học tập**.
 
 Bằng cách kết hợp công nghệ hiện đại và phân tích dữ liệu hành vi, chúng tôi hướng tới việc giảm tỷ lệ bỏ học và nâng cao chất lượng giáo dục trực tuyến.
 
